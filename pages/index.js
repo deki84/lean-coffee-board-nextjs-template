@@ -1,8 +1,20 @@
 import { useState } from "react";
+import {getAllCards} from '../Services/cardServices'
 
 import styled from "styled-components";
 import Card from "../components/Card";
 import Form from "../components/Form";
+
+export async function getServerSideProps(){
+   const cards = await getAllCards();
+   return{
+     props:{
+      cards: cards,
+     },
+
+   };
+}
+
 
 export default function Home() {
   const [cardList, setCardList] = useState([]);
@@ -11,7 +23,7 @@ export default function Home() {
     setCardList([newCard, ...cardList]);
   }
 
-  function removeCard(id) {
+  function removeCard({id,Cards}) {
     setCardList(cardList.filter((card) => card.id !== id));
   }
 
